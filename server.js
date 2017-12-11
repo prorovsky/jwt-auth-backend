@@ -1,4 +1,4 @@
-const envVariables = require('./env.js');
+const envVariables = require('./env/env.js');
 
 
 var express = require('express');
