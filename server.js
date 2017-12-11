@@ -36,7 +36,7 @@ app.post('/register', (req, res) => {
 });
 
 mongoose.connect(`mongodb://${envVariables.dbUser}:${envVariables.dbPassword}@ds135186.mlab.com:35186/mean-social-site`, {useMongoClient: true}, (err) => {
-    if (!err) console.log('connected corectly');
+    if (!err) console.log('connected correctly');
 });
 
 app.listen(3000, () => {
