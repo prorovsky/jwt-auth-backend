@@ -1,4 +1,4 @@
-const User = require('./models/User.js'),
+const User = require('./models/User'),
     bcrypt = require('bcrypt-nodejs'),
     jwt = require('jwt-simple'),
     express = require('express'),
