@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
 
 function createSendToken(res, user) {
     const payload = { sub: user._id };
-    const token = jwt.encode(payload, envVariables.tokenSecret);
+    const token = jwt.encode(payload, envVariables.tokenSecret || process.env.TOKEN_SECRET);
 
     res.status(200).send({token: token});
 }
@@ -41,7 +41,7 @@ const auth = {
     checkAuthenticated: (req, res, next) => {
         if (!req.header('authorization')) return res.status(401).send({message: 'Unauthorized. Missing Auth Header'});
         const token = req.header('authorization').split(' ')[1];
-        const payload = jwt.decode(token, envVariables.tokenSecret);
+        const payload = jwt.decode(token, envVariables.tokenSecret || process.env.TOKEN_SECRET);
     
         if (!payload) return res.status(401).send({message: 'Unauthorized. Auth Header Invalid'});
     

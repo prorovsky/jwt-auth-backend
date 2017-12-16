@@ -59,7 +59,7 @@ app.get('/profile/:id', async (req, res) => {
     }
 });
 
-mongoose.connect(`mongodb://${envVariables.dbUser}:${envVariables.dbPassword}@ds135186.mlab.com:35186/mean-social-site`, {useMongoClient: true}, (err) => {
+mongoose.connect(`mongodb://${envVariables.dbUser || process.env.DBUSER}:${envVariables.dbPassword || process.env.DBPASSWORD}@ds135186.mlab.com:35186/mean-social-site`, {useMongoClient: true}, (err) => {
     if (!err) console.log('connected correctly');
 });
 
