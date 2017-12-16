@@ -64,5 +64,5 @@ mongoose.connect(`mongodb://${process.env.DBUSER}:${process.env.DBPASSWORD}@ds13
 
 app.use('/auth', auth.router);
 app.listen(process.env.PORT || 3000, () => {
-    console.log('app running and listen localhost port 3000');
+    console.log('app running');
 });
