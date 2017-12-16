@@ -64,6 +64,6 @@ mongoose.connect(`mongodb://${envVariables.dbUser}:${envVariables.dbPassword}@ds
 });
 
 app.use('/auth', auth.router);
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('app running and listen localhost port 3000');
 });
