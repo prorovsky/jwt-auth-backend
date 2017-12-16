@@ -3,9 +3,9 @@ const express = require('express'),
     jwt = require('jwt-simple'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    User = require('./models/User.js'),
-    Post = require('./models/Post.js'),
-    auth = require('./auth.js');
+    User = require('./models/User'),
+    Post = require('./models/Post'),
+    auth = require('./auth');
 
 mongoose.Promise = Promise;
 
