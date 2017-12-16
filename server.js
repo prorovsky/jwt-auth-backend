@@ -1,17 +1,18 @@
-const envVariables = require('./env/env.js');
-const express = require('express');
-var app = express();
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var User = require('./models/User.js');
-const Post = require('./models/Post.js');
-var auth = require('./auth.js')
+const envVariables = require('./env/env.js'),
+    express = require('express'),
+    app = express(),
+    jwt = require('jwt-simple'),
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
+    User = require('./models/User.js'),
+    Post = require('./models/Post.js'),
+    auth = require('./auth.js');
 
 mongoose.Promise = Promise;
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Authorization, Content-Type, Accept');
     next();
 });
 
@@ -23,9 +24,9 @@ app.get('/posts/:id', async (req, res) => {
     res.send(posts);
 });
 
-app.post('/post', (req, res) => {
+app.post('/post', auth.checkAuthenticated, (req, res) => {
     const postData = req.body;
-    postData.author = '5a3166e7d3c1762010cd7f31';
+    postData.author = req.userId;
 
     const post = new Post(postData);
 
@@ -34,7 +35,7 @@ app.post('/post', (req, res) => {
             console.error('error when saving post');
             return res.status(500).send({message: 'saving post error'});
         }
-        res.sendStatus(200);
+        res.status(200).send({message: 'yes you posted new post'});
     });
 });
 
@@ -62,7 +63,7 @@ mongoose.connect(`mongodb://${envVariables.dbUser}:${envVariables.dbPassword}@ds
     if (!err) console.log('connected correctly');
 });
 
-app.use('/auth', auth);
+app.use('/auth', auth.router);
 app.listen(3000, () => {
     console.log('app running and listen localhost port 3000');
 });
