@@ -1,5 +1,4 @@
-const envVariables = require('./env/env.js'),
-    User = require('./models/User.js'),
+const User = require('./models/User.js'),
     bcrypt = require('bcrypt-nodejs'),
     jwt = require('jwt-simple'),
     express = require('express'),
@@ -31,7 +30,7 @@ router.post('/login', async (req, res) => {
 
 function createSendToken(res, user) {
     const payload = { sub: user._id };
-    const token = jwt.encode(payload, envVariables.tokenSecret || process.env.TOKEN_SECRET);
+    const token = jwt.encode(payload, process.env.TOKEN_SECRET);
 
     res.status(200).send({token: token});
 }
@@ -41,7 +40,7 @@ const auth = {
     checkAuthenticated: (req, res, next) => {
         if (!req.header('authorization')) return res.status(401).send({message: 'Unauthorized. Missing Auth Header'});
         const token = req.header('authorization').split(' ')[1];
-        const payload = jwt.decode(token, envVariables.tokenSecret || process.env.TOKEN_SECRET);
+        const payload = jwt.decode(token, process.env.TOKEN_SECRET);
     
         if (!payload) return res.status(401).send({message: 'Unauthorized. Auth Header Invalid'});
     
